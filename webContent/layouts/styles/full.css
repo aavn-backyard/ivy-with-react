@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+body, html, td, tr, th, input, textarea, select, form {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+}
+
+.ivy-logo img {
+  width: 212px;
+  height: 46px;
+  z-index: 1;
+  position: relative;
+  margin: 10px 25px 10px 0;
+}
+
+#layoutFooter p {
+	margin: 0;
+	padding: 0;
+}
