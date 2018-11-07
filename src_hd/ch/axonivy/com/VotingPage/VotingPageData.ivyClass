@@ -1,2 +1,6 @@
 VotingPageData #class
 ch.axonivy.com.VotingPage #namespace
+products java.util.List<ch.axonivy.react.Product> #field
+products PERSISTENT #fieldModifier
+totalVote Integer #field
+totalVote PERSISTENT #fieldModifier

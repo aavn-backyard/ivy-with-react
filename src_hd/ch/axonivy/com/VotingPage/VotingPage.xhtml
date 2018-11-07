@@ -10,10 +10,14 @@
 	<ui:composition template="/layouts/full.xhtml">
 		<ui:define name="title">VotingPage</ui:define>
 		<ui:define name="content">
+			<ui:include src="ResourceLoader.xhtml"></ui:include>
 			<h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
+			<h:outputStylesheet library="css" name="font-awesome.css"></h:outputStylesheet>
+			<h:outputStylesheet library="css" name="component.css"></h:outputStylesheet>
 			<h:outputStylesheet library="semantic-dist" name="semantic.css"></h:outputStylesheet>
 			<h:outputScript library="vendor" name="react.js" />
 			<h:outputScript library="vendor" name="react-dom.js" />
+			<script type="text/javascript" src="rest/ivyajaxapi.js"></script>
 			<div class="main ui text container">
       			<h1 class="ui dividing centered header">Popular Products</h1>
       			<div id="content"></div>

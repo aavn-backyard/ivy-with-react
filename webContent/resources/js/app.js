@@ -1,19 +1,26 @@
-class ProductList extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
+class ProductDashboard extends React.Component {
+  	constructor(props) {
+    	super(props);
+      	this.state = {
 			products: [],
 		};
-		this.handleProductUpVote = this.handleProductUpVote.bind(this);
-	}
-	state ={
+  		this.handleSubmit = this.handleSubmit.bind(this);
+    	this.handleSubmitCallback = this.handleSubmitCallback.bind(this);
+      	this.handleProductUpVote = this.handleProductUpVote.bind(this);
+  	}
+  	state ={
 		products:[]
 	}
-
 	componentDidMount() {
-
 		this.setState({products: Seed.products});
 	}
+  	handleSubmit(){
+  		console.log("aaaaa");
+      	logic.submit( {"products": "World"}, this.handleSubmitCallback);
+ 	}
+  	handleSubmitCallback(returnData){
+      alert(returnData.status);
+    }
 	handleProductUpVote = (productId) => {
 		console.log("product " + productId +" was up vote");
 		const nextProducts = this.state.products.map((product) => {
@@ -28,8 +35,30 @@ class ProductList extends React.Component {
 
 		this.setState({products : nextProducts});
 	}
+	render () {
+      const products = this.state.products;
+    	return (
+          <div className='dashboard'>
+        	<ProductList products={products} handleProductUpVote={this.handleProductUpVote} />
+            <button onClick={this.handleSubmit} className="btn-small btn-6 btn-6c">
+              Submit</button>
+            
+          </div>
+        );
+    }
+}
+class ProductList extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleProductUpVote = this.handleProductUpVote.bind(this);
+	}
+
+	handleProductUpVote = (productId) => {
+		console.log("product " + productId +" was up vote");
+		this.props.handleProductUpVote(productId);
+	}
 	render(){
-		const products = this.state.products.sort((a,b)=>(b.votes - a.votes));
+		const products = this.props.products.sort((a,b)=>(b.votes - a.votes));
 		const productComponents = products.map((product)=> (
 			
 				<Product
@@ -67,7 +96,7 @@ class Product extends React.Component {
 				<div className='middle aligned content'>
 					<div className='header'>
 						<a onClick={this.handleUpVote}>
-							<i className='large caret up icon' />
+							<i className="fa fa-arrow-up"></i>
 						</a>
 						{this.props.votes}
 					</div>
@@ -91,6 +120,6 @@ class Product extends React.Component {
 }
 
 ReactDOM.render(
-	<ProductList/>,
+	<ProductDashboard/>,
 	document.getElementById('content')
 );

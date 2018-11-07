@@ -8,13 +8,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ProductList = function (_React$Component) {
-	_inherits(ProductList, _React$Component);
+var ProductDashboard = function (_React$Component) {
+	_inherits(ProductDashboard, _React$Component);
 
-	function ProductList(props) {
-		_classCallCheck(this, ProductList);
+	function ProductDashboard(props) {
+		_classCallCheck(this, ProductDashboard);
 
-		var _this = _possibleConstructorReturn(this, (ProductList.__proto__ || Object.getPrototypeOf(ProductList)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (ProductDashboard.__proto__ || Object.getPrototypeOf(ProductDashboard)).call(this, props));
 
 		_this.state = {
 			products: []
@@ -38,22 +38,80 @@ var ProductList = function (_React$Component) {
 		_this.state = {
 			products: []
 		};
+		_this.handleSubmit = _this.handleSubmit.bind(_this);
+		_this.handleSubmitCallback = _this.handleSubmitCallback.bind(_this);
 		_this.handleProductUpVote = _this.handleProductUpVote.bind(_this);
 		return _this;
 	}
 
-	_createClass(ProductList, [{
+	_createClass(ProductDashboard, [{
 		key: "componentDidMount",
 		value: function componentDidMount() {
-
 			this.setState({ products: Seed.products });
+		}
+	}, {
+		key: "handleSubmit",
+		value: function handleSubmit() {
+			var productParam = this.state.products.map(function (item) {
+				return {
+					id: item.id,
+					title: item.title,
+					description: item.description,
+					url: item.url,
+					votes: item.votes
+				};
+			});
+			var param = JSON.stringify(productParam);
+			logic.submit({ "products": param }, this.handleSubmitCallback);
+		}
+	}, {
+		key: "handleSubmitCallback",
+		value: function handleSubmitCallback(returnData) {
+			alert("Total Votes is: " + returnData.totalVote);
 		}
 	}, {
 		key: "render",
 		value: function render() {
-			var _this2 = this;
+			var products = this.state.products;
+			return React.createElement(
+				"div",
+				{ className: "dashboard" },
+				React.createElement(ProductList, { products: products, handleProductUpVote: this.handleProductUpVote }),
+				React.createElement(
+					"button",
+					{ onClick: this.handleSubmit, className: "btn-small btn-6 btn-6c" },
+					"Submit"
+				)
+			);
+		}
+	}]);
 
-			var products = this.state.products.sort(function (a, b) {
+	return ProductDashboard;
+}(React.Component);
+
+var ProductList = function (_React$Component2) {
+	_inherits(ProductList, _React$Component2);
+
+	function ProductList(props) {
+		_classCallCheck(this, ProductList);
+
+		var _this2 = _possibleConstructorReturn(this, (ProductList.__proto__ || Object.getPrototypeOf(ProductList)).call(this, props));
+
+		_this2.handleProductUpVote = function (productId) {
+			console.log("product " + productId + " was up vote");
+			_this2.props.handleProductUpVote(productId);
+		};
+
+		_this2.handleProductUpVote = _this2.handleProductUpVote.bind(_this2);
+		return _this2;
+	}
+
+	_createClass(ProductList, [{
+		key: "render",
+		value: function render() {
+			var _this3 = this;
+
+			var products = this.props.products.sort(function (a, b) {
 				return b.votes - a.votes;
 			});
 			var productComponents = products.map(function (product) {
@@ -66,7 +124,7 @@ var ProductList = function (_React$Component) {
 					votes: product.votes,
 					submitterAvatarUrl: product.submitterAvatarUrl,
 					productImageUrl: product.productImageUrl,
-					onVote: _this2.handleProductUpVote
+					onVote: _this3.handleProductUpVote
 				});
 			});
 			return React.createElement(
@@ -80,13 +138,13 @@ var ProductList = function (_React$Component) {
 	return ProductList;
 }(React.Component);
 
-var Product = function (_React$Component2) {
-	_inherits(Product, _React$Component2);
+var Product = function (_React$Component3) {
+	_inherits(Product, _React$Component3);
 
 	function Product() {
 		var _ref;
 
-		var _temp, _this3, _ret;
+		var _temp, _this4, _ret;
 
 		_classCallCheck(this, Product);
 
@@ -94,9 +152,9 @@ var Product = function (_React$Component2) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this3 = _possibleConstructorReturn(this, (_ref = Product.__proto__ || Object.getPrototypeOf(Product)).call.apply(_ref, [this].concat(args))), _this3), _this3.handleUpVote = function () {
-			_this3.props.onVote(_this3.props.id);
-		}, _temp), _possibleConstructorReturn(_this3, _ret);
+		return _ret = (_temp = (_this4 = _possibleConstructorReturn(this, (_ref = Product.__proto__ || Object.getPrototypeOf(Product)).call.apply(_ref, [this].concat(args))), _this4), _this4.handleUpVote = function () {
+			_this4.props.onVote(_this4.props.id);
+		}, _temp), _possibleConstructorReturn(_this4, _ret);
 	}
 
 	_createClass(Product, [{
@@ -119,7 +177,7 @@ var Product = function (_React$Component2) {
 						React.createElement(
 							"a",
 							{ onClick: this.handleUpVote },
-							React.createElement("i", { className: "large caret up icon" })
+							React.createElement("i", { className: "fa fa-arrow-up" })
 						),
 						this.props.votes
 					),
@@ -156,4 +214,4 @@ var Product = function (_React$Component2) {
 	return Product;
 }(React.Component);
 
-ReactDOM.render(React.createElement(ProductList, null), document.getElementById('content'));
+ReactDOM.render(React.createElement(ProductDashboard, null), document.getElementById('content'));
