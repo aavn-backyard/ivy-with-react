@@ -18,10 +18,10 @@
 			<h:outputScript library="vendor" name="react.js" />
 			<h:outputScript library="vendor" name="react-dom.js" />
 			<script type="text/javascript" src="rest/ivyajaxapi.js"></script>
-			<div class="main ui text container">
-      			<h1 class="ui dividing centered header">Popular Products</h1>
-      			<div id="content"></div>
-    		</div>
+			<p:outputPanel styleClass="main ui text container">
+				<h1 class="ui dividing centered header">Popular Products</h1>
+				<p:outputPanel id="content"/>
+			</p:outputPanel>
     		<h:outputScript library="js" name="seed.js" />
     		<h:outputScript library="js" name="app-compiled.js" />
 		</ui:define>

@@ -15,11 +15,20 @@ class ProductDashboard extends React.Component {
 		this.setState({products: Seed.products});
 	}
   	handleSubmit(){
-  		console.log("aaaaa");
-      	logic.submit( {"products": "World"}, this.handleSubmitCallback);
+      const productParam = this.state.products.map((item)=> {
+          return  {
+                id: item.id,
+                title: item.title,
+                description: item.description,
+                url: item.url,
+                votes: item.votes
+              };
+      });
+      var param = JSON.stringify(productParam);
+      	logic.submit( {"products": param}, this.handleSubmitCallback);
  	}
   	handleSubmitCallback(returnData){
-      alert(returnData.status);
+      alert("Total Votes is: " + returnData.totalVote);
     }
 	handleProductUpVote = (productId) => {
 		console.log("product " + productId +" was up vote");
